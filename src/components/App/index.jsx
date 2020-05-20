@@ -1,80 +1,68 @@
 import React, { Component } from 'react';
-import propTypes from 'prop-types';
+import ContactForm from './contactForm/index';
+import Filter from './Filter/index';
+import ContactList from './contactList/index';
 import { v4 } from 'uuid';
 
-const id = v4();
-export default class App extends Component {
-  static defaultProps = {};
+const filterContacts = (contacts, filter) => {
+  return contacts.filter(contact =>
+    contact.name.toLowerCase().includes(filter.toLowerCase()),
+  );
+};
 
+export default class App extends Component {
   static propTypes = {};
 
   state = {
-    contacts: [],
+    contacts: [
+      { id: 'id-1', name: 'Rosie Simpson', number: '459-12-56' },
+      { id: 'id-2', name: 'Hermione Kline', number: '443-89-12' },
+      { id: 'id-3', name: 'Eden Clements', number: '645-17-79' },
+      { id: 'id-4', name: 'Annie Copeland', number: '227-91-26' },
+    ],
     filter: '',
-    name: '',
-    number: '',
   };
 
-  handleChange = ({ target: { value, name } }) =>
-    this.setState({
-      [name]: value,
-    });
-
-  handleClick = () =>
+  toAddContact = state => {
+    const contactToAdd = {
+      ...state,
+      id: v4(),
+    };
     this.setState(prevState => ({
-      contacts: [
-        ...prevState.contacts,
-        { number: this.state.number, name: this.state.name, id: id },
-      ],
+      contacts: [...prevState.contacts, contactToAdd],
     }));
+  };
 
-  handleFindContact = () =>
-    this.state.contacts.filter(contact => (contact.name = this.state.filter));
+  changeFilter = ({ target: { value } }) => {
+    this.setState({ filter: value });
+  };
+
+  handleDeleteContact = id => {
+    this.setState(prevState => ({
+      contacts: prevState.contacts.filter(contact => contact.id !== id),
+    }));
+  };
 
   render() {
-    const { contacts, name, number, filter } = this.state;
+    const { contacts, filter } = this.state;
+    const filteredContacts = filterContacts(contacts, filter);
     return (
       <>
-        <form>
-          <label>
-            Name
-            <input
-              type="text"
-              name="name"
-              value={name}
-              onChange={this.handleChange}
-            />
-          </label>
-          <label>
-            Number
-            <input
-              type="tel"
-              name="number"
-              value={number}
-              onChange={this.handleChange}
-            />
-          </label>
-          <button type="button" onClick={this.handleClick}>
-            Add contact
-          </button>
-        </form>
+        <h1>Phonebook</h1>
+        <ContactForm contactToAdd={this.toAddContact} />
         <h2>Contacts</h2>
-        <label>
-          Find contact by name
-          <input
-            type="text"
-            name="name"
-            value={filter}
-            // onChange={contacts.length > 2 && this.handleFindContact}
+        <Filter
+          filterValue={filter}
+          contactList={contacts}
+          onChangeFilter={this.changeFilter}
+        />
+
+        {contacts.length > 0 && (
+          <ContactList
+            onHandleDeleteContact={this.handleDeleteContact}
+            onFilteredContacts={filteredContacts}
           />
-        </label>
-        <ul>
-          {contacts.map(contact => (
-            <li key={contact.id}>
-              {contact.name}: {contact.number}
-            </li>
-          ))}
-        </ul>
+        )}
       </>
     );
   }
