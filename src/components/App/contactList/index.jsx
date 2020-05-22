@@ -8,7 +8,11 @@ const ContactList = ({ onHandleDeleteContact, onFilteredContacts }) => (
         <p>
           {contact.name}: {contact.number}
         </p>
-        <button className="contactListButton" onClick={() => onHandleDeleteContact(contact.id)} type="button">
+        <button
+          className="contactListButton"
+          onClick={() => onHandleDeleteContact(contact.id)}
+          type="button"
+        >
           Delete
         </button>
       </li>
@@ -17,14 +21,14 @@ const ContactList = ({ onHandleDeleteContact, onFilteredContacts }) => (
 );
 
 ContactList.propTypes = {
-    onHandleDeleteContact: propTypes.func.isRequired,
-    onFilteredContacts: propTypes.arrayOf(
-        propTypes.shape({
-          id: propTypes.string.isRequired,
-          name: propTypes.string.isRequired,
-          number: propTypes.string.isRequired,
-        }),
-      ).isRequired,
-}
+  onHandleDeleteContact: propTypes.func.isRequired,
+  onFilteredContacts: propTypes.arrayOf(
+    propTypes.shape({
+      id: propTypes.string.isRequired,
+      name: propTypes.string.isRequired,
+      number: propTypes.string.isRequired,
+    }),
+  ).isRequired,
+};
 
 export default ContactList;

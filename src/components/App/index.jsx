@@ -3,7 +3,6 @@ import ContactForm from './contactForm/index';
 import Filter from './Filter/index';
 import ContactList from './contactList/index';
 import { v4 } from 'uuid';
-
 const filterContacts = (contacts, filter) => {
   return contacts.filter(contact =>
     contact.name.toLowerCase().includes(filter.toLowerCase()),
@@ -49,7 +48,7 @@ export default class App extends Component {
     return (
       <>
         <h1>Phonebook</h1>
-        <ContactForm contactToAdd={this.toAddContact} />
+        <ContactForm contacts={contacts} contactToAdd={this.toAddContact} />
         <h2>Contacts</h2>
         <Filter
           filterValue={filter}

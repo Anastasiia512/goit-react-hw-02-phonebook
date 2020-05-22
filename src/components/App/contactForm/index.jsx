@@ -19,13 +19,23 @@ export default class ContactForm extends Component {
 
   handleSubmit = e => {
     e.preventDefault();
-    if(this.state.name) {
-    this.props.contactToAdd({ ...this.state })
+    const prevValue = this.props.contacts.find(
+      contact => contact.name === this.state.name,
+    );
+    if (!prevValue) {
+      this.props.contactToAdd({ ...this.state });
+      this.setState({
+        name: '',
+        number: '',
+      });
+      return;
+    }
+
+    alert(`${this.state.name} is already in contacts`);
     this.setState({
       name: '',
       number: '',
     });
-  }
   };
 
   render() {
@@ -34,7 +44,8 @@ export default class ContactForm extends Component {
       <form className="contactForm" onSubmit={this.handleSubmit}>
         <label>
           Name
-          <input className="contactFormInput"
+          <input
+            className="contactFormInput"
             type="text"
             name="name"
             value={name}
@@ -43,14 +54,17 @@ export default class ContactForm extends Component {
         </label>
         <label>
           Number
-          <input className="contactFormInput"
+          <input
+            className="contactFormInput"
             type="tel"
             name="number"
             value={number}
             onChange={this.handleChange}
           />
         </label>
-        <button className="contactFormButton" type="submit">Add contact</button>
+        <button className="contactFormButton" type="submit">
+          Add contact
+        </button>
       </form>
     );
   }
