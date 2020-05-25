@@ -47,6 +47,7 @@ export default class ContactForm extends Component {
           <input
             className="contactFormInput"
             type="text"
+            required
             name="name"
             value={name}
             onChange={this.handleChange}
@@ -56,8 +57,9 @@ export default class ContactForm extends Component {
           Number
           <input
             className="contactFormInput"
-            type="tel"
+            type="number"
             name="number"
+            required
             value={number}
             onChange={this.handleChange}
           />
