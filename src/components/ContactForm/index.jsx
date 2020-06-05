@@ -8,6 +8,10 @@ export default class ContactForm extends Component {
     number: '',
   };
 
+  resetState = () => {
+    this.setState({ name: '', number: '' });
+  };
+
   static propTypes = {
     contactToAdd: propTypes.func.isRequired,
   };
@@ -24,18 +28,11 @@ export default class ContactForm extends Component {
     );
     if (!prevValue) {
       this.props.contactToAdd({ ...this.state });
-      this.setState({
-        name: '',
-        number: '',
-      });
+      this.resetState();
       return;
     }
-
     alert(`${this.state.name} is already in contacts`);
-    this.setState({
-      name: '',
-      number: '',
-    });
+    this.resetState();
   };
 
   render() {

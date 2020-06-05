@@ -16,8 +16,14 @@ const Filter = ({ filterValue, contactList, onChangeFilter }) =>
 
 Filter.propTypes = {
   filterValue: propTypes.string.isRequired,
-  contactList: propTypes.array.isRequired,
   onChangeFilter: propTypes.func.isRequired,
+  contactList: propTypes.arrayOf(
+    propTypes.shape({
+      id: propTypes.string.isRequired,
+      name: propTypes.string.isRequired,
+      number: propTypes.string.isRequired,
+    }),
+  ).isRequired,
 };
 
 export default Filter;
